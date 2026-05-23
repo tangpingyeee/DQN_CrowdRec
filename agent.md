@@ -105,7 +105,7 @@
 - [ ] 三种 DQN 变体系统对比并填入报告表
 - [ ] **实验报告正文**（PDF/Word）与 **PPT**
 - [ ] 数据分析 EDA 图表写入报告 §2
-- [ ] `include_truth_in_candidates` 消融（CLI 开关尚未暴露，见 §5.3）
+- [x] `include_truth_in_candidates` 消融（train/eval/baseline 已支持 CLI 开关）
 - [ ] 学习曲线出图脚本（可从 `metrics.csv` 绘制）
 - [ ] 可选：BC 预训练、TensorBoard、GPU 默认配置
 
@@ -171,7 +171,11 @@ python scripts/run_baselines.py --side worker --split test --max-projects 50
 - `category_match` 等基线 Hit@1 **虚高**（子集实验上可达 ~1.0）。
 - DQN 的 Hit@1 相对基线优势可能被低估或对比失真。
 
-**Agent 任务**：若做公平对比，应实现 CLI `--no-truth-in-candidates` 并跑消融；报告中必须说明两种设定。
+-(此行删除)**Agent 任务**：若做公平对比，应实现 CLI `--no-truth-in-candidates` 并跑消融；报告中必须说明两种设定。
+- 训练与评估时，默认会将真实标签强制加入 K 个候选中：
+
+```python
+include_truth_in_candidates=True
 
 ### 5.2 Cache
 
@@ -237,6 +241,7 @@ python scripts/run_baselines.py --side worker --split test --max-projects 50
 为 train/eval 脚本增加 --no-truth-in-candidates，传入 EnvConfig.include_truth_in_candidates。
 更新 agent.md §5.1 与 report_outline 消融小节说明。
 跑 50 项目对比 Hit@1 并汇报。
+
 ```
 
 ### 7.4 写报告某节
